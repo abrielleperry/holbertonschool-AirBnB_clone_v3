@@ -73,7 +73,7 @@ class FileStorage:
         """retrive one object"""
         for obj in self.__objects.values():
             if type (obj).__name__ == cls and obj.id == id:
-                return "Get success"
+                return obj
         return None
 
     def count(self, cls=None):
