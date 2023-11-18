@@ -3,6 +3,7 @@
 from flask import Flask, jsonify
 from api.v1.views import app_views
 
+
 app = Flask(__name__)
 
 
