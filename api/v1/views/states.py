@@ -8,8 +8,14 @@ from models import storage
 
 
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
-def get_states():
+def get_states(self, state_id=None):
     """Retrieves list all state objects"""
-    states = storage.all(State).values()
-    states_list = [state.to_dict() for state in states]
-    return jsonify(states_list)
+    if state_id is None:
+        states = storage.all(State).values()
+        states_list = [state.to_dict() for state in states]
+        return jsonify(states_list)
+    else:
+        state = storage.get(State, state_id)
+        if state is None:
+            return jsonify({"error": "Not found"})
+        return jsonify(state.to_dict())
