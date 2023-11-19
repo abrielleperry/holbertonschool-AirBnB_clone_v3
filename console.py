@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3
+#!/user/bin/python3
 """ console """
 
 import cmd
