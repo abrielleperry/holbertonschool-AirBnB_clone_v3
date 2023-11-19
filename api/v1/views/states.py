@@ -17,5 +17,6 @@ def get_states(self, state_id=None):
     else:
         state = storage.get(State, state_id)
         if state is None:
-            return jsonify({"error": "Not found"})
+            abort(404)
         return jsonify(state.to_dict())
+
