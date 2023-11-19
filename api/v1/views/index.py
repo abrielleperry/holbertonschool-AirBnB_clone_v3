@@ -8,7 +8,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-from models import  storage
+from models import storage
 
 
 app = Flask(__name__)
@@ -19,11 +19,13 @@ def status():
     response = {"status": "OK"}
     return jsonify(response)
 
+
 @app_views.route("stats")
 def stats():
     """Retrieves the number of objects by type"""
     classes = [Amenity, City, Place, Review, State, User]
-    object_name = ["amenities", "cities", "places", "reviews", "states", "users"]
+    object_name = ["amenities", "cities", "places", "reviews", "states",
+                   "users"]
 
     stats = {}
     for object in range(len(classes)):
