@@ -79,11 +79,11 @@ class DBStorage:
         """retrieve one object"""
         if cls in classes.values():
             key = f"{cls.__name__}.{id}"
-            if key in self.all_objects(cls).keys():
-                return (self.all_objects(cls)[key]
+            if key in self.all(cls).objects():
+                return (self.all(cls)[key])
         else:
-        return None
+            return None
 
     def count(self, cls=None):
         """count the number of objects in storage"""
-        return (len(self.all_objects(cls)))
+        return (len(self.all(cls)))
