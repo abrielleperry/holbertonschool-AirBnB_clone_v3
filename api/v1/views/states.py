@@ -13,16 +13,19 @@ def get_states():
     states = storage.all(State).values()
     states_list = []
     for state in states:
-         states_list.append(state.to_dict())
+        states_list.append(state.to_dict())
     return jsonify(states_list)
+
 
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
 def get_states(state_id):
-        """Retrieves state by id"""
-        state = storage.get(State, state_id)
-        if state is None:
-            abort(404)
+    """Retrieves state object by id"""
+    state_obj = storage.get(State, state_id)
+    if state_obj is None:
+        abort(404)
+    else:
         return jsonify(state.to_dict())
+
 
 @app_views.route("/states", methods=["DELETE"], strict_slashes=False)
 def delete_state(self, state_id):
