@@ -73,7 +73,7 @@ class FileStorage:
         """retrieve one object"""
         key = f"{cls.__name__}.{id}"
         if cls in classes.values():
-            if key in self.all(cls).objects:
+            if key in self.all(cls).keys():
                 return (self.all(cls)[key])
         return None
 
