@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Create a new view for State objects tha handles all default
+"""Create a new view for State objects that handles all default
 RESTful API actions"""
 from flask import abort, jsonify, make_response, request
 from models.state import State
@@ -8,17 +8,15 @@ from models import storage
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_states():
+def get_all_states():
     """Retrieves list all state objects"""
     states = storage.all(State).values()
-    states_list = []
-    for state in states:
-        states_list.append(state.to_dict())
+    states_list = [state.to_dict() for state in states]
     return jsonify(states_list)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def get_states_by_state(state_id):
+def get_id_state(state_id):
     """Retrieves state object by id"""
     state_obj = storage.get(State, state_id)
     if not state_obj:
@@ -47,7 +45,7 @@ def post_state():
     response = request.get_json()
 
     if not response:
-        return make_response(jsonify({"error": "Not found"}), 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     
     if "name" not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
@@ -62,18 +60,19 @@ def post_state():
 def put_state(state_id):
     """Updates a state object"""
     state_obj = storage.get(State, state_id)
-    response = request.get_json()
-
     if not state_obj:
         abort(404)
+
+    response = request.get_json()
 
     if not response:
         abort(400, description="Not a JSON")
 
-    keys = ["id", "created_at", "updated_at"]
-
+    # Ignore keys: id, created_at, and updated_at
+    keys_to_ignore = ["id", "created_at", "updated_at"]
     for key, value in response.items():
-        if key not in keys:
+        if key not in keys_to_ignore:
             setattr(state_obj, key, value)
+
     storage.save()
     return make_response(jsonify(state_obj.to_dict()), 200)
