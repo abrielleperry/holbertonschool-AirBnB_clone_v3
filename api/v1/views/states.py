@@ -7,7 +7,7 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route("/states", methods=["GET"], strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """Retrieves list all state objects"""
     states = storage.all(State).values()
@@ -17,11 +17,11 @@ def get_states():
     return jsonify(states_list)
 
 
-@app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_states(state_id):
     """Retrieves state object by id"""
     state_obj = storage.get(State, state_id)
-    if state_obj is None:
+    if not state_obj:
         abort(404)
     else:
         return jsonify(state_obj.to_dict())
@@ -32,8 +32,9 @@ def get_states(state_id):
 def delete_state(state_id):
     """Deletes a state object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
+
     storage.delete(state)
     storage.save()
 
@@ -54,7 +55,7 @@ def post_state():
     return make_response(jsonify(created_state.to_dict()), 201)
 
 
-@app_views.route("/states/<state_id>", methods=["DELETE"],
+@app_views.route("/states/<state_id>", methods=["PUT"],
                  strict_slashes=False)
 def put_state(state_id):
     """Updates a state object"""
