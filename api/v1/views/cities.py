@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+""" objects that handles all default RestFul API actions for cities """
 from flask import abort, jsonify, make_response, request
 from models.state import State
 from models.city import City
