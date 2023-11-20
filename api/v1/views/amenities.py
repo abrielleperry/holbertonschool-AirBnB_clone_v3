@@ -6,7 +6,7 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
 def get_all_amenities():
     """Retrieves list all state objects"""
     amenity_list = [amenity.to_dict()
@@ -14,7 +14,7 @@ def get_all_amenities():
     return jsonify(amenity_list)
 
 
-@app_views.route('/amenities/<amenity_id>',
+@app_views.route('/api/v1/amenities/<amenity_id>',
                  methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     one_amenity = storage.get(Amenity, amenity_id)
