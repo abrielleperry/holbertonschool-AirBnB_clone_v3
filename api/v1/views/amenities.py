@@ -9,11 +9,13 @@ from api.v1.views import app_views
 @app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
 def get_all_amenities():
     """Retrieves list all state objects"""
-    amenity_list = [amenity.to_dict() for amenity in storage.all(Amenity.values())]
+    amenity_list = [amenity.to_dict()
+                    for amenity in storage.all(Amenity).values()]
     return jsonify(amenity_list)
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/amenities/<amenity_id>',
+                 methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
@@ -53,7 +55,8 @@ def post_amenity(amenity_id):
     return make_response(jsonify(created_city.to_dict()), 201)
 
 
-@app_views.route("/api/v1/amenities/<amenity_id>", methods=["PUT"], strict_slashes=False)
+@app_views.route("/api/v1/amenities/<amenity_id>",
+                 methods=["PUT"], strict_slashes=False)
 def put_amenity(amenity_id):
     amenity_obj = storage.get(Amenity, amenity_id)
     if not amenity_obj:
