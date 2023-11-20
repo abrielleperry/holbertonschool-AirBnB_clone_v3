@@ -78,7 +78,7 @@ class DBStorage:
     def get(self, cls, id):
         """retrieve one object"""
         key = f"{cls.__name__}.{id}"
-         # check if the class exists in classes dictionary
+        # check if the class exists in classes dictionary
         if cls in classes.values():
             if key in self.all(cls).keys():
                 return (self.all(cls)[key])
