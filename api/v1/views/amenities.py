@@ -2,8 +2,6 @@
 """ objects that handles all default RestFul API actions for amenities """
 from flask import abort, jsonify, make_response, request
 from models.amenity import Amenity
-from models.state import State
-from models.city import City
 from models import storage
 from api.v1.views import app_views
 
@@ -11,7 +9,7 @@ from api.v1.views import app_views
 @app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
 def get_all_amenities():
     """Retrieves list all state objects"""
-    amenity_list = [amenity.to_dict() for amenity in storage.all]
+    amenity_list = [amenity.to_dict() for amenity in storage.all(Amenity.values())]
     return jsonify(amenity_list)
 
 
