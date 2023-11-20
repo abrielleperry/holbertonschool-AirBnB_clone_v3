@@ -45,9 +45,9 @@ def post_state():
     """Creates a state"""
     response = request.get_json()
     if not response:
-        abort(400, description="Not a JSON")
+        return make_response(jsonify({"error": "Not found"}), 400)
     if "name" not in response:
-        abort(400, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 400)
 
     created_state = State(**response)
     created_state.save()
