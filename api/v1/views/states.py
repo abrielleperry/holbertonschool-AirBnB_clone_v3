@@ -45,8 +45,10 @@ def delete_state(state_id):
 def post_state():
     """Creates a state"""
     response = request.get_json()
+
     if not response:
         return make_response(jsonify({"error": "Not found"}), 400)
+    
     if "name" not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
 
