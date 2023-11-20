@@ -46,7 +46,7 @@ def post_city(state_id):
 
     response = request.get_json()
     if not response:
-        abort(404, description="Not a JSON")
+        abort(400, description="Not a JSON")
 
     if "name" not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
