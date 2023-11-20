@@ -80,7 +80,7 @@ class DBStorage:
         key = f"{cls.__name__}.{id}"
          # check if the class exists in classes dictionary
         if cls in classes.values():
-            if key in self.all(cls).objects:
+            if key in self.all(cls).keys():
                 return (self.all(cls)[key])
         return None
 
