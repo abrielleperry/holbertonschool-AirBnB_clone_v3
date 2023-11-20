@@ -10,7 +10,7 @@ from api.v1.views import app_views
 def get_all_amenities():
     """Retrieves list all state objects"""
     amenity_list = [amenity.to_dict()
-                    for amenity in storage.all(Amenity.values())]
+                    for amenity in storage.all(Amenity).values()]
     return jsonify(amenity_list)
 
 
