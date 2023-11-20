@@ -46,7 +46,7 @@ def post_state():
 
     if not response:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    
+
     if "name" not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
 
