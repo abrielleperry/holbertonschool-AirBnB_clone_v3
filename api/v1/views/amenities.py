@@ -5,25 +5,30 @@ from models.amenity import Amenity
 from models import storage
 from api.v1.views import app_views
 
+
 @app_views.route('/api/v1/amenities',
-                methods=['GET'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def get_all_amenities():
     """Retrieves list all state objects"""
+
+
 amenity_list = [amenity.to_dict()
                 for amenity in storage.all(Amenity).values()]
 return jsonify(amenity_list)
 
+
 @app_views.route('/api/v1/amenities/<amenity_id>',
-                    methods=['GET'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
     return jsonify(amenity.to_dict())
 
+
 @app_views.route("/api/v1/amenities/<amenity_id>",
-                    methods=["DELETE"],
-                    strict_slashes=False)
+                 methods=["DELETE"],
+                 strict_slashes=False)
 def delete_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
@@ -32,8 +37,9 @@ def delete_amenity(amenity_id):
     storage.save()
     return make_response(jsonify({}), 200)
 
+
 @app_views.route("/api/v1/amenities",
-                    methods=["POST"], strict_slashes=False)
+                 methods=["POST"], strict_slashes=False)
 def post_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
@@ -51,8 +57,9 @@ def post_amenity(amenity_id):
     created_amenity.save()
     return make_response(jsonify(created_city.to_dict()), 201)
 
+
 @app_views.route("/api/v1/amenities/<amenity_id>",
-                    methods=["PUT"], strict_slashes=False)
+                 methods=["PUT"], strict_slashes=False)
 def put_amenity(amenity_id):
     amenity_obj = storage.get(Amenity, amenity_id)
     if not amenity_obj:
