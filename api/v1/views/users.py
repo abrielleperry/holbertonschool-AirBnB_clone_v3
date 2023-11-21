@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""new view for User object that handles all default RestFul API actions"""
+"""new view for User object that handles all default 
+RestFul API actions"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -10,7 +11,7 @@ from models.user import User
 def get_users():
     """retrieves list of all User objects"""
     users = []
-    for user in storage.all("User").values():
+    for user in storage.all(User).values():
         users.append(user.to_dict())
     return jsonify(users)
 
@@ -18,7 +19,7 @@ def get_users():
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """retrieves User object"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
@@ -27,7 +28,7 @@ def get_user(user_id):
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """deletes User object"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     user.delete()
@@ -52,7 +53,7 @@ def post_user():
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def put_user(user_id):
     """updates a User object"""
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     if not request.get_json():
