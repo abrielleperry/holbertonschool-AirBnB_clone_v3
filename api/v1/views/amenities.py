@@ -47,7 +47,6 @@ def post_amenity(amenity_id):
     if "name" not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
     created_amenity = Amenity(**response)
-    created_amenity.amenity_id = amenity_id
     created_amenity.save()
     return make_response(jsonify(created_amenity.to_dict()), 201)
 
@@ -63,7 +62,7 @@ def put_amenity(amenity_id):
         abort(400, description="Not a JSON")
     keys_to_ignore = ["id", "created_at", "updated_at"]
     for key, value in response.items():
-        if key not in keys_to_ignore:
+        if key not in keys_to_ignore and hasattr(amenity_obj, key):
             setattr(amenity_obj, key, value)
     storage.save()
     return make_response(jsonify(amenity_obj.to_dict()), 200)
