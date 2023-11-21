@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Create a new view for Place objects that handles all default RESTFul API actions:"""
+"""Create a new view for Place obj that handles all RESTFul API actions:"""
 from flask import abort, jsonify, make_response, request
 from models.city import City
 from models.place import Place
