@@ -6,37 +6,38 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/users', methods=['GET'], strict_slashes=False)
 def get_users():
     """retrieves list of all user objects"""
-    users = []
-    for user in storage.all('User').values():
-        users.append(user.to_dict())
-    return jsonify(users)
+    users = storage.all(User).values()
+    users_list = []
+    for user in users:
+        users_list.append(user.to_dict())
+    return jsonify(users_list)
 
 
-@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """retrieves a user object"""
-    user = storage.get('User', user_id)
-    if user is None:
+    users = storage.get(User, user_id)
+    if users is None:
         abort(404)
-    return jsonify(user.to_dict())
+    return jsonify(users.to_dict())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """deletes user object"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    user.delete()
+    storage.delete(user)
     storage.save()
     return jsonify({}), 200
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def create_user():
+def post_user():
     """creates user"""
     if not request.get_json():
         abort(400, description="Not a JSON")
@@ -50,13 +51,13 @@ def create_user():
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
-def update_user(user_id):
+def put_user(user_id):
     """updates user object"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     if not request.get_json():
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     for key, value in request.get_json().items():
         if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
