@@ -21,11 +21,11 @@ def get_all_places(city_id):
 @app_views.route('/api/v1/places/<place_id>',
                  methods=['GET'], strict_slashes=False)
 def get_place(place_id):
-    place_obj = storage.get(Place, place_id)
-    if not place_obj:
+    places = storage.get(Place, place_id)
+    if not places:
         abort(404)
     else:
-        return jsonify(place_obj.to_dict())
+        return jsonify(places.to_dict())
 
 
 @app_views.route('/api/v1/places/<place_id>',
