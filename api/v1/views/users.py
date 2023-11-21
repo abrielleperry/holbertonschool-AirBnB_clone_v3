@@ -56,7 +56,7 @@ def update_user(user_id):
     if user is None:
         abort(404)
     if not request.get_json():
-        abort(400, description="Not a JSON")
+        abort(400, "Not a JSON")
     for key, value in request.get_json().items():
         if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
