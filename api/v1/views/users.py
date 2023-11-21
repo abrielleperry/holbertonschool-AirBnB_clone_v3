@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""new view for User object that handles all default 
+"""new view for User object that handles all default
 RestFul API actions"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
