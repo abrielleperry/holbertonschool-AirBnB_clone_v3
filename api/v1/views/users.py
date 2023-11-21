@@ -11,7 +11,7 @@ def get_users():
     """retrieves list of all User objects"""
     users = []
     for user in storage.all("User").values():
-    users.append(user.to_dict())
+        users.append(user.to_dict())
     return jsonify(users)
 
 
@@ -20,7 +20,7 @@ def get_user(user_id):
     """retrieves User object"""
     user = storage.get("User", user_id)
     if user is None:
-    abort(404)
+        abort(404)
     return jsonify(user.to_dict())
 
 
@@ -29,7 +29,7 @@ def delete_user(user_id):
     """deletes User object"""
     user = storage.get("User", user_id)
     if user is None:
-    abort(404)
+        abort(404)
     user.delete()
     storage.save()
     return jsonify({}), 200
@@ -39,11 +39,11 @@ def delete_user(user_id):
 def post_user():
     """creates a User"""
     if not request.get_json():
-    abort(400, description="Not a JSON")
+        abort(400, description="Not a JSON")
     if 'email' not in request.get_json():
-    abort(400, description="Missing email")
+        abort(400, description="Missing email")
     if 'password' not in request.get_json():
-    abort(400, description="Missing password")
+        abort(400, description="Missing password")
     user = User(**request.get_json())
     user.save()
     return jsonify(user.to_dict()), 201
@@ -54,11 +54,11 @@ def put_user(user_id):
     """updates a User object"""
     user = storage.get("User", user_id)
     if user is None:
-    abort(404)
+        abort(404)
     if not request.get_json():
-    abort(400, description="Not a JSON")
+        abort(400, description="Not a JSON")
     for attr, val in request.get_json().items():
-    if attr not in ['id', 'email', 'created_at', 'updated_at']:
-        setattr(user, attr, val)
+        if attr not in ['id', 'email', 'created_at', 'updated_at']:
+            setattr(user, attr, val)
     user.save()
     return jsonify(user.to_dict()), 200
