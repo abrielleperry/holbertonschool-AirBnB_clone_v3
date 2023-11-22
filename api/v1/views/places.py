@@ -24,8 +24,7 @@ def get_place(place_id):
     place_obj = storage.get(Place, place_id)
     if place_obj is None:
         abort(404)
-    else:
-        return jsonify(place_obj.to_dict())
+    return jsonify(place_obj.to_dict())
 
 
 @app_views.route('/api/v1/places/<place_id>',
