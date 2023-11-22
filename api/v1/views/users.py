@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Create a new view for useer"""
+"""creates a new view for User object"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -32,7 +32,7 @@ def delete_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    user.delete()
+    storage.delete(user)
     storage.save()
     return jsonify({}), 200
 
