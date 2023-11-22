@@ -44,7 +44,7 @@ def delete_review(review_id):
 
     storage.delete(review)
     storage.save()
-    return make_response(jsonify{}, 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/places/<places_id>/reviews', methods=['POST'],
@@ -98,5 +98,5 @@ def update_review(review_id):
         if key not in ignore_keys:
             setattr(review, key, value)
 
-    review.save()
-    return make_response(jsonify(review.to_dict()), 200)
+    storage.save()
+    return jsonify(review.to_dict()), 200
