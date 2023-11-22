@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """Create a new view for Place obj that handles all RESTFul API actions:"""
+
+from api.v1.views import app_views
 from flask import jsonify, make_response, abort, request
 from models import storage
 from models.place import Place
 from models.city import City
-from api.v1.views import app_views
+from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -52,13 +54,12 @@ def post_place(city_id):
         return abort(400, jsonify({"error": "Not a JSON"}))
     if 'user_id' not in req_data:
         return abort(400, jsonify({"error": "Missing user_id"}))
-    user = storage.get(User, req_datadata['user_id'])
+    user = storage.get(User, req_data['user_id'])
     if user is None:
         abort(404)
     if 'name' not in req_data:
         return abort(400, jsonify({"error": "Missing name"}))
     req_data['city_id'] = city_id
-    print(req_data)
     post_place = Place(**req_data)
     storage.save()
     return make_response(jsonify(post_place.to_dict()), 201)
