@@ -1,18 +1,17 @@
 #!/usr/bin/python3
 """Create a new view for Place obj that handles all RESTFul API actions:"""
-from api.v1.views import app_views
 from flask import jsonify, make_response, abort, request
 from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
+from api.v1.views import app_views
 
 
 @app_views.route('cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def get_all_places(city_id):
     """Retrieves the list of all Place objects of a City"""
-    print("Getting Here 1")
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
