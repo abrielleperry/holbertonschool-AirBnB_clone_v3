@@ -53,12 +53,12 @@ def post_place(city_id):
     if req_data is None:
         return abort(400, jsonify({"error": "Not a JSON"}))
     if 'user_id' not in req_data:
-        return abort(400, jsonify({"error": "Missing user_id"}))
+        abort(400, jsonify({"error": "Missing user_id"}))
     user = storage.get(User, req_data['user_id'])
     if user is None:
         abort(404)
     if 'name' not in req_data:
-        return abort(400, jsonify({"error": "Missing name"}))
+        abort(400, jsonify({"error": "Missing name"}))
     req_data['city_id'] = city_id
     post_place = Place(**req_data)
     storage.save()
