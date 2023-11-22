@@ -11,6 +11,7 @@ from models.user import User
 @app_views.route('/api/v1/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def get_all_places(city_id):
+    """Retrieves the list of all Place objects of a City"""
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -18,9 +19,10 @@ def get_all_places(city_id):
     return jsonify(all_places)
 
 
-@app_views.route('/api/v1/places/<place_id>',
+@app_views.route('/api/v1/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def get_place(place_id):
+    """Retrieves a Place object"""
     place_obj = storage.get(Place, place_id)
     if place_obj is None:
         abort(404)
@@ -30,6 +32,7 @@ def get_place(place_id):
 @app_views.route('/api/v1/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_place(place_id):
+    """Deletes a Place object"""
     place_obj = storage.get(Place, place_id)
     if place_obj is None:
         abort(404)
