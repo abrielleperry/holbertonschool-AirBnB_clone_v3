@@ -48,4 +48,29 @@ def delete_review(review_id):
                  strict_slashes=False)
 def post_review(place_id):
     """Creates a Review"""
+    place = storage.get(Place, place_id)
+
+    if not place:
+        abort(404)
+
+    obj_dict = request.get_json()
+    if not obj_dict:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     
+    user_id = obj_dict.get('user_id')
+    text = obj_dict.get('text')
+
+    if not user_id:
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
+    
+    if not text:
+        return make_response(jsonify({"error": "Missing text"}), 400)
+    
+    if not storage.get(User, user_id):
+        abort(404)
+
+    obj_dict['place_id'] = place_id
+    new_review = Review(**obj_dict)
+    new_review.save()
+
+    return make_response(jsonify(new_review.to_dict()), 201)
