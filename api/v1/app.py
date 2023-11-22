@@ -9,6 +9,7 @@ from api.v1.views import app_views
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
@@ -21,6 +22,7 @@ def teardown_appcontext(exception):
 def not_found(error):
     response = jsonify({"error": "Not found"})
     response.status_code = 404
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 
