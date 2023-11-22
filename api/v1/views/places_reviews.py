@@ -56,7 +56,7 @@ def post_review(place_id):
     if not place:
         abort(404)
 
-    obj_dict = request.get_json()
+    req_data = request.get_json()
     if not obj_dict:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
@@ -72,9 +72,9 @@ def post_review(place_id):
     if not storage.get(User, user_id):
         abort(404)
 
-    obj_dict['place_id'] = place_id
+    req_data['place_id'] = place_id
     new_review = Review(**obj_dict)
-    new_review.save()
+    storage.save()
 
     return make_response(jsonify(new_review.to_dict()), 201)
 
@@ -88,10 +88,14 @@ def update_review(review_id):
         abort(404)
     req_data = request.get_json()
     if req_data is None:
-        abort (400, "Not a JSON")
+        abort(400, "Not a JSON")
     for key, value in req_data.items():
-        if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
-            setattr(review, key, value)
-
+        if key not in [
+            'id',
+            'user_id',
+            'place_id',
+            'created_at',
+                'updated_at']:
+                setattr(review, key, value)
     storage.save()
     return jsonify(review.to_dict()), 200
