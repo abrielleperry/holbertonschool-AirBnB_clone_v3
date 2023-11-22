@@ -12,29 +12,29 @@ from models import storage
                  methods=['GET'], strict_slashes=False)
 def get_all_places(city_id):
     city = storage.get(City, city_id)
-    if not city:
+    if city is None:
         abort(404)
-    places = [place.to_dict() for place in city.place]
-    return jsonify(places)
+    all_places = [place.to_dict() for place in city.places]
+    return jsonify(all_places)
 
 
 @app_views.route('/api/v1/places/<place_id>',
                  methods=['GET'], strict_slashes=False)
 def get_place(place_id):
-    places = storage.get(Place, place_id)
-    if not places:
+    place_obj = storage.get(Place, place_id)
+    if place_obj is None:
         abort(404)
     else:
-        return jsonify(places.to_dict())
+        return jsonify(place_obj.to_dict())
 
 
 @app_views.route('/api/v1/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_place(place_id):
-    place = storage.get(Place, place_id)
-    if not place:
+    place_obj = storage.get(Place, place_id)
+    if place_obj is None:
         abort(404)
-    storage.delete(place)
+    storage.delete(place_obj)
     storage.save()
     return make_response(jsonify({}), 200)
 
@@ -43,7 +43,7 @@ def delete_place(place_id):
                  methods=['POST'], strict_slashes=False)
 def post_place(city_id):
     city = storage.get(City, city_id)
-    if not city:
+    if city is None:
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
