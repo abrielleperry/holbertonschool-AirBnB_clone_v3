@@ -71,7 +71,7 @@ def post_review(place_id):
         abort(404)
 
     req_data['place_id'] = place_id
-    new_review = Review(**obj_dict)
+    new_review = Review(**req_data)
     storage.save()
 
     return make_response(jsonify(new_review.to_dict()), 201)
