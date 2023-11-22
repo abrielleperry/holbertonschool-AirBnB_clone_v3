@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """Create a new view for Place obj that handles all RESTFul API actions:"""
+from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
+from models import storage
 from models.city import City
 from models.place import Place
 from models.user import User
-from api.v1.views import app_views
-from models import storage
 
 
 @app_views.route('/api/v1/cities/<city_id>/places',
