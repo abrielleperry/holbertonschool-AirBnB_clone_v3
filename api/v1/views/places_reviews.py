@@ -84,18 +84,13 @@ def post_review(place_id):
 def update_review(review_id):
     """Updates a Review object"""
     review = storage.get(Review, review_id)
-    if not review:
+    if review is None:
         abort(404)
-
-    obj_dict = request.get_json()
-
-    if not obj_dict:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-
-    ignore_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-
-    for key, value in obj_dict.items():
-        if key not in ignore_keys:
+    req_data = request.get_json()
+    if req_data is None:
+        abort (400, "Not a JSON")
+    for key, value in req_data.items():
+        if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
             setattr(review, key, value)
 
     storage.save()
